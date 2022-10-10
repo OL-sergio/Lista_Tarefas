@@ -1,5 +1,6 @@
 package udemy.java.listadetarefas.activitys;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ import udemy.java.listadetarefas.R;
 import udemy.java.listadetarefas.activitys.AddTaskActivity;
 import udemy.java.listadetarefas.adapter.TaskAdapter;
 import udemy.java.listadetarefas.databinding.ActivityMainBinding;
+import udemy.java.listadetarefas.helper.DataBaseHelper;
 import udemy.java.listadetarefas.helper.RecyclerItemClickListener;
 import udemy.java.listadetarefas.model.Task;
 
@@ -29,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
@@ -52,8 +56,20 @@ public class MainActivity extends AppCompatActivity  {
 
         setSupportActionBar(binding.toolbar);
 
-        recyclerView  =findViewById(R.id.recyclerView_tasks);
+        //Confirurar recycler
+        recyclerView  = findViewById(R.id.recyclerView_tasks);
 
+        /*
+        *
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+
+        ContentValues cv  = new ContentValues();
+        cv.put("name" , "Teste" );
+
+        dataBaseHelper.getWritableDatabase().insert("tasks", null, cv);
+        */
+
+        //Adicionar evento de click
         recyclerView.addOnItemTouchListener( new RecyclerItemClickListener(
                         getApplicationContext(),
                         recyclerView,
@@ -103,14 +119,24 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch ( item.getItemId() ) {
+
+            case R.id.item_menu_save:
+                Toast.makeText(MainActivity.this,
+                        "Item salvar", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.item_menu_edit:
+                Toast.makeText(MainActivity.this,
+                        "Item Editar", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.item_menu_config:
+                Toast.makeText(MainActivity.this,
+                        "Item configuração", Toast.LENGTH_SHORT).show();
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
