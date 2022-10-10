@@ -39,10 +39,14 @@ public class AddTaskActivity extends AppCompatActivity {
             case R.id.item_menu_save:
 
                 TaskDAO taskDAO = new TaskDAO(getApplicationContext());
-                Task task = new Task();
-                task.setTaskName("Ir an mercado");
-                taskDAO.save(task);
 
+                String nomeTarefa  = editTextTask.getText().toString();
+                if (!nomeTarefa.isEmpty()) {
+                    Task task = new Task();
+                    task.setTaskName(nomeTarefa);
+                    taskDAO.save(task);
+                    finish();
+                }
                 break;
         }
 

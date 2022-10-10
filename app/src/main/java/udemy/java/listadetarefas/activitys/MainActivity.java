@@ -25,6 +25,7 @@ import udemy.java.listadetarefas.adapter.TaskAdapter;
 import udemy.java.listadetarefas.databinding.ActivityMainBinding;
 import udemy.java.listadetarefas.helper.DataBaseHelper;
 import udemy.java.listadetarefas.helper.RecyclerItemClickListener;
+import udemy.java.listadetarefas.helper.TaskDAO;
 import udemy.java.listadetarefas.model.Task;
 
 import android.view.Menu;
@@ -152,13 +153,17 @@ public class MainActivity extends AppCompatActivity  {
     public void getTaskList() {
 
         //List tasks
-        Task tasks1 = new Task();
+        TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+        listTasks = taskDAO.listTasks();
+
+        /*
+        * Task tasks1 = new Task();
         tasks1.setTaskName("Ir mercado");
         listTasks.add(tasks1);
 
         Task tasks2 = new Task();
         tasks2.setTaskName("Ir a feira");
-        listTasks.add(tasks2);
+        listTasks.add(tasks2);*/
 
 
         //Seating adapter

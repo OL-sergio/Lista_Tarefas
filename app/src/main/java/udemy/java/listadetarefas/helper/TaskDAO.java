@@ -2,18 +2,20 @@ package udemy.java.listadetarefas.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import udemy.java.listadetarefas.model.Task;
 
 public class TaskDAO implements ITaskDAO {
 
-    private SQLiteDatabase write;
-    private SQLiteDatabase read;
+    private final SQLiteDatabase write;
+    private final SQLiteDatabase read;
 
 
     public TaskDAO(Context context) {
@@ -51,6 +53,23 @@ public class TaskDAO implements ITaskDAO {
 
     @Override
     public List<Task> listTasks() {
-        return null;
+        List<Task> tasks = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + DataBaseHelper.TASKS_TABLE + " ;" ;
+        Cursor cursor =  read.rawQuery (sql , null);
+        while (cursor.moveToNext()) {
+
+            Task task = new Task();
+
+            Long id = cursor.getLong( cursor.getColumnIndex("id") );
+            String nameTask = cursor.getString( cursor.getColumnIndex("name") );
+
+            task.setId(id);
+            task.setTaskName(nameTask);
+
+            tasks.add(task);
+        }
+
+        return tasks;
     }
 }
