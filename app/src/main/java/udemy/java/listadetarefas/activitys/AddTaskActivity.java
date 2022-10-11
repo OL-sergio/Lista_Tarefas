@@ -17,6 +17,7 @@ import udemy.java.listadetarefas.model.Task;
 public class AddTaskActivity extends AppCompatActivity {
 
     private TextInputEditText editTextTask;
+    private Task taskRetrieved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,14 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         editTextTask = findViewById(R.id.textInput_addTask);
+
+        //Retrieved task, case be edited
+        taskRetrieved = (Task) getIntent().getSerializableExtra("taskSelected");
+
+        //Task settings on box text
+        if (taskRetrieved != null){
+            editTextTask.setText(taskRetrieved.getTaskName());
+        }
 
     }
 
@@ -40,12 +49,49 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 TaskDAO taskDAO = new TaskDAO(getApplicationContext());
 
-                String nomeTarefa  = editTextTask.getText().toString();
-                if (!nomeTarefa.isEmpty()) {
-                    Task task = new Task();
-                    task.setTaskName(nomeTarefa);
-                    taskDAO.save(task);
-                    finish();
+                if (taskRetrieved != null) {
+
+                    String taskName  = editTextTask.getText().toString();
+
+                    if (!taskName.isEmpty()){
+                        Task task = new Task();
+                        task.setTaskName(taskName);
+                        task.setId(taskRetrieved.getId());
+
+                        if (taskDAO.update(task)){
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Sucesso ao atualizar tarefa!",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Erro ao atualizar tarefa!",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    }else {
+
+                        String nomeTarefa  = editTextTask.getText().toString();
+
+                        if (!nomeTarefa.isEmpty()) {
+                            Task task = new Task();
+                            task.setTaskName(nomeTarefa);
+
+                            if (taskDAO.save(task)){
+                                Toast.makeText(getApplicationContext(),
+                                        "Sucesso ao salvar tarefa!",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Erro ao salvar tarefa!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            finish();
+                    }
                 }
                 break;
         }

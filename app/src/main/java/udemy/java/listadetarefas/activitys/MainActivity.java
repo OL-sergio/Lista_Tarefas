@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity  {
         setSupportActionBar(binding.toolbar);
 
         //Confirurar recycler
-        recyclerView  = findViewById(R.id.recyclerView_tasks);
+
+
+      recyclerView = binding.recyclerViewTasks;
 
         /*
         *
@@ -82,7 +84,14 @@ public class MainActivity extends AppCompatActivity  {
 
                             @Override
                             public void onItemClick(View view, int position) {
-                                Log.i("clique", "onItemClick");
+                                //Retrieve task fot edit
+                                Task taskSelected = listTasks.get(position);
+
+                                //Send task data for activity add task
+                                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                                intent.putExtra("taskSelected", taskSelected);
+                                startActivity(intent);
+
                             }
 
                             @Override
@@ -101,11 +110,6 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
-
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
     }
 
@@ -143,12 +147,6 @@ public class MainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 
     public void getTaskList() {
 

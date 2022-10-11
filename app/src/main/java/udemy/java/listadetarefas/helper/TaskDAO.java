@@ -1,5 +1,6 @@
 package udemy.java.listadetarefas.helper;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,7 +44,20 @@ public class TaskDAO implements ITaskDAO {
 
     @Override
     public boolean update(Task task) {
-        return false;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", task.getTaskName());
+
+        try {
+            String [] args = {task.getId().toString()};
+            write.update(DataBaseHelper.TASKS_TABLE, contentValues, "id=?", args );
+            Log.i("INFO DB", "Tarefa atualizar com sucesso!" );
+
+        } catch (Exception e){
+            Log.i("INFO DB", "Erro ao atualizar tarefa" + e.getMessage() );
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -61,8 +75,8 @@ public class TaskDAO implements ITaskDAO {
 
             Task task = new Task();
 
-            Long id = cursor.getLong( cursor.getColumnIndex("id") );
-            String nameTask = cursor.getString( cursor.getColumnIndex("name") );
+            @SuppressLint("Range") Long id = cursor.getLong( cursor.getColumnIndex("id") );
+            @SuppressLint("Range") String nameTask = cursor.getString( cursor.getColumnIndex("name") );
 
             task.setId(id);
             task.setTaskName(nameTask);
