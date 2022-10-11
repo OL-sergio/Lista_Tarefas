@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlinx.coroutines.channels.ChannelResult;
 import udemy.java.listadetarefas.model.Task;
 
 public class TaskDAO implements ITaskDAO {
@@ -62,7 +63,17 @@ public class TaskDAO implements ITaskDAO {
 
     @Override
     public boolean delete(Task task) {
-        return false;
+
+        try {
+            String [] args = {task.getId().toString()};
+            read.delete(DataBaseHelper.TASKS_TABLE, "id=?", args);
+            Log.i("INFO DB", "Tarefa removida com sucesso!" );
+
+        } catch (Exception e){
+            Log.i("INFO DB", "Erro ao remover a tarefa!" + e.getMessage() );
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -70,7 +81,7 @@ public class TaskDAO implements ITaskDAO {
         List<Task> tasks = new ArrayList<>();
 
         String sql = "SELECT * FROM " + DataBaseHelper.TASKS_TABLE + " ;" ;
-        Cursor cursor =  read.rawQuery (sql , null);
+        Cursor cursor =  read.rawQuery(sql , null);
         while (cursor.moveToNext()) {
 
             Task task = new Task();
@@ -83,6 +94,8 @@ public class TaskDAO implements ITaskDAO {
 
             tasks.add(task);
         }
+
+        cursor.close();
 
         return tasks;
     }

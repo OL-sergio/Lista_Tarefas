@@ -11,10 +11,14 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 
 import udemy.java.listadetarefas.R;
+import udemy.java.listadetarefas.databinding.ActivityAddTaskBinding;
+import udemy.java.listadetarefas.databinding.ActivityMainBinding;
 import udemy.java.listadetarefas.helper.TaskDAO;
 import udemy.java.listadetarefas.model.Task;
 
 public class AddTaskActivity extends AppCompatActivity {
+
+    private ActivityAddTaskBinding binding;
 
     private TextInputEditText editTextTask;
     private Task taskRetrieved;
@@ -22,9 +26,11 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
 
-        editTextTask = findViewById(R.id.textInput_addTask);
+        binding = ActivityAddTaskBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        editTextTask = binding.textInputAddTask;
 
         //Retrieved task, case be edited
         taskRetrieved = (Task) getIntent().getSerializableExtra("taskSelected");

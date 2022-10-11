@@ -1,11 +1,13 @@
 package udemy.java.listadetarefas.activitys;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity  {
 
     private RecyclerView recyclerView;
     private TaskAdapter tasksAdapter;
+    private Task taskSelected;
+
     private List<Task> listTasks = new ArrayList<>();
 
     @Override
@@ -96,7 +100,30 @@ public class MainActivity extends AppCompatActivity  {
 
                             @Override
                             public void onLongItemClick(View view, int position) {
-                                Log.i("clique", "onLongItemClick");
+
+                                taskSelected = listTasks.get(position);
+
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                                dialog.setTitle("Confirmar exclusão");
+                                dialog.setMessage("Deseja excluir a tarefa " + taskSelected.getTaskName() + "?" );
+                                dialog.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+                                            if (taskDAO.delete(taskSelected)){
+                                                getTaskList();
+                                                Toast.makeText(getApplicationContext(),
+                                                        "Sucesso ao apagar tarefa!",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                Toast.makeText(getApplicationContext(),
+                                                        "Erro ao apagar tarefa!",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                    }
+                                });
+                                dialog.setPositiveButton("Não", null);
+                                dialog.show();
                             }
                         }
                 )
@@ -129,17 +156,17 @@ public class MainActivity extends AppCompatActivity  {
 
             case R.id.item_menu_save:
                 Toast.makeText(MainActivity.this,
-                        "Item salvar", Toast.LENGTH_SHORT).show();
+                        "Guardar item", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.item_menu_edit:
                 Toast.makeText(MainActivity.this,
-                        "Item Editar", Toast.LENGTH_SHORT).show();
+                        "Editar item", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.item_menu_config:
                 Toast.makeText(MainActivity.this,
-                        "Item configuração", Toast.LENGTH_SHORT).show();
+                        "Configuração item", Toast.LENGTH_SHORT).show();
                 break;
 
         }
