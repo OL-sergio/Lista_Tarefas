@@ -13,6 +13,13 @@
         android:theme="@style/Theme.ListaDeTarefas"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.DeletedTasksActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activitys.AddTaskActivity"
             android:exported="false">
             <meta-data

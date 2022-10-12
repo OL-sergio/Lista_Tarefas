@@ -43,7 +43,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
     private RecyclerView recyclerView;
@@ -62,9 +61,7 @@ public class MainActivity extends AppCompatActivity  {
         setSupportActionBar(binding.toolbar);
 
         //Confirurar recycler
-
-
-      recyclerView = binding.recyclerViewTasks;
+         recyclerView = binding.recyclerViewTasks;
 
         /*
         *
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity  {
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                                 dialog.setTitle("Confirmar exclusão");
                                 dialog.setMessage("Deseja excluir a tarefa " + taskSelected.getTaskName() + "?" );
-                                dialog.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+                                dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         TaskDAO taskDAO = new TaskDAO(getApplicationContext());
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity  {
                                             }
                                     }
                                 });
-                                dialog.setPositiveButton("Não", null);
+                                dialog.setNegativeButton("Não", null);
                                 dialog.show();
                             }
                         }

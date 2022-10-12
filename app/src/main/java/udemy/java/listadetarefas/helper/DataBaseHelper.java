@@ -12,6 +12,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static int VERSION = 1;
     public static String DB_NAME = "DB_TASKS";
     public static String TASKS_TABLE = "tasks";
+    public static String TASKS_DELETED = "tasksDeleted";
+
 
 
     public DataBaseHelper(@Nullable Context context) {
@@ -21,15 +23,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String sql  = "CREATE TABLE IF NOT EXISTS " + TASKS_TABLE
+        String sqlTaskCreated  = "CREATE TABLE IF NOT EXISTS " + TASKS_TABLE
                 + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + " name TEXT NOT NULL ) ";
 
         try {
-            db.execSQL(sql);
-            Log.i("INFO DB", "Sucesso ao criar a Tabela" );
+            db.execSQL(sqlTaskCreated);
+            Log.i("INFO DB", "Sucesso ao criar a Tabela tarefas" );
         } catch (Exception e){
-            Log.i("INFO DB", "Erro ao criar a Tabela" + e.getMessage());
+            Log.i("INFO DB", "Erro ao criar a Tabela tarefas" + e.getMessage());
+
+        }
+
+
+        String sqlTasksDeleted  = "CREATE TABLE IF NOT EXISTS " + TASKS_DELETED
+                + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + " name TEXT NOT NULL ) ";
+
+        try {
+            db.execSQL(sqlTasksDeleted);
+            Log.i("INFO DB", "Sucesso ao criar a Tabela tarafas apagadas" );
+        } catch (Exception e){
+            Log.i("INFO DB", "Erro ao criar a Tabela tarafas apagadas" + e.getMessage());
 
         }
 
@@ -38,10 +53,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        String sql  = " DROP TABLE IF EXISTS  " + TASKS_TABLE + ";" ;
+        String sqlTasksCreated  = " DROP TABLE IF EXISTS  " + TASKS_TABLE + ";" ;
 
         try {
-            db.execSQL(sql);
+            db.execSQL(sqlTasksCreated);
+            onCreate(db);
+            Log.i("INFO DB", "Sucesso ao Actualizar App" );
+        } catch (Exception e){
+            Log.i("INFO DB", "Erro ao criar a Tabela" + e.getMessage());
+
+        }
+
+        String sqlTasksDeleted  = " DROP TABLE IF EXISTS  " + TASKS_DELETED + ";" ;
+
+        try {
+            db.execSQL(sqlTasksDeleted);
             onCreate(db);
             Log.i("INFO DB", "Sucesso ao Actualizar App" );
         } catch (Exception e){
