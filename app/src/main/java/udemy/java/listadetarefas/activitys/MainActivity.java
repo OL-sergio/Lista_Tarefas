@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity  {
         listTasks.add(tasks2);*/
 
 
-        //Seating adapter
+        //setting adapter
         tasksAdapter = new TaskAdapter(listTasks);
 
         //Seating RecyclerView

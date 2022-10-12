@@ -40,8 +40,20 @@ public class TaskDAO implements ITaskDAO {
             Log.i("INFO DB", "Erro ao salvar tarefa" + e.getMessage() );
             return false;
         }
+
+
+        try {
+            write.insert(DataBaseHelper.TASKS_DELETED, null, contentValues );
+            Log.i("INFO DB", "Tarefa sava com sucesso!" );
+
+        } catch (Exception e){
+            Log.i("INFO DB", "Erro ao salvar tarefa" + e.getMessage() );
+            return false;
+        }
+
         return true;
     }
+
 
     @Override
     public boolean update(Task task) {
@@ -81,6 +93,29 @@ public class TaskDAO implements ITaskDAO {
         List<Task> tasks = new ArrayList<>();
 
         String sql = "SELECT * FROM " + DataBaseHelper.TASKS_TABLE + " ;" ;
+        Cursor cursor =  read.rawQuery(sql , null);
+        while (cursor.moveToNext()) {
+
+            Task task = new Task();
+
+            @SuppressLint("Range") Long id = cursor.getLong( cursor.getColumnIndex("id") );
+            @SuppressLint("Range") String nameTask = cursor.getString( cursor.getColumnIndex("name") );
+
+            task.setId(id);
+            task.setTaskName(nameTask);
+
+            tasks.add(task);
+        }
+
+        cursor.close();
+
+        return tasks;
+    }
+
+    public List<Task> listTasksDeleted() {
+        List<Task> tasks = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + DataBaseHelper.TASKS_DELETED + " ;" ;
         Cursor cursor =  read.rawQuery(sql , null);
         while (cursor.moveToNext()) {
 
