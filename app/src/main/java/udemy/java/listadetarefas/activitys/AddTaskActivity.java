@@ -12,7 +12,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import udemy.java.listadetarefas.R;
 import udemy.java.listadetarefas.databinding.ActivityAddTaskBinding;
-import udemy.java.listadetarefas.databinding.ActivityMainBinding;
 import udemy.java.listadetarefas.helper.TaskDAO;
 import udemy.java.listadetarefas.model.Task;
 

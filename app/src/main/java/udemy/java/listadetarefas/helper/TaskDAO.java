@@ -29,11 +29,11 @@ public class TaskDAO implements ITaskDAO {
     @Override
     public boolean save(Task task) {
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", task.getTaskName());
+        ContentValues tasksValues = new ContentValues();
+        tasksValues.put("name", task.getTaskName());
 
         try {
-            write.insert(DataBaseHelper.TASKS_TABLE, null, contentValues );
+            write.insert(DataBaseHelper.TASKS_TABLE, null, tasksValues );
             Log.i("INFO DB", "Tarefa sava com sucesso!" );
 
         } catch (Exception e){
@@ -42,8 +42,11 @@ public class TaskDAO implements ITaskDAO {
         }
 
 
+        ContentValues deletedValues = new ContentValues();
+        deletedValues.put("name", task.getTaskName());
+
         try {
-            write.insert(DataBaseHelper.TASKS_DELETED, null, contentValues );
+            write.insert(DataBaseHelper.TASKS_DELETED, null, deletedValues );
             Log.i("INFO DB", "Tarefa sava com sucesso!" );
 
         } catch (Exception e){
@@ -90,6 +93,7 @@ public class TaskDAO implements ITaskDAO {
 
     @Override
     public List<Task> listTasks() {
+
         List<Task> tasks = new ArrayList<>();
 
         String sql = "SELECT * FROM " + DataBaseHelper.TASKS_TABLE + " ;" ;

@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity  {
                                                 Toast.makeText(getApplicationContext(),
                                                         "Sucesso ao apagar tarefa!",
                                                         Toast.LENGTH_SHORT).show();
+
+                                                if (taskDAO.delete(taskSelected)){
+                                                    taskSelected.getTaskDeleteName();
+                                                }
                                             }else {
                                                 Toast.makeText(getApplicationContext(),
                                                         "Erro ao apagar tarefa!",
@@ -166,6 +170,11 @@ public class MainActivity extends AppCompatActivity  {
                         "Configuração item", Toast.LENGTH_SHORT).show();
                 break;
 
+            case R.id.item_menu_deletedTasks:
+                Intent intent = new Intent( getApplicationContext(), DeletedTasksActivity.class);
+                startActivity(intent);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -178,15 +187,15 @@ public class MainActivity extends AppCompatActivity  {
         TaskDAO taskDAO = new TaskDAO(getApplicationContext());
         listTasks = taskDAO.listTasks();
 
-        /*
-        * Task tasks1 = new Task();
+        /**
+        Task tasks1 = new Task();
         tasks1.setTaskName("Ir mercado");
         listTasks.add(tasks1);
 
         Task tasks2 = new Task();
         tasks2.setTaskName("Ir a feira");
-        listTasks.add(tasks2);*/
-
+        listTasks.add(tasks2);
+        */
 
         //setting adapter
         tasksAdapter = new TaskAdapter(listTasks);

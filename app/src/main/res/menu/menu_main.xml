@@ -1,6 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/item_menu_save"
@@ -20,4 +19,11 @@
         android:orderInCategory="300"
         android:title="@string/menu_configurar"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_menu_deletedTasks"
+        android:orderInCategory="400"
+        android:title="@string/menu_deleted_tasks"
+        app:showAsAction="never" />
+
 </menu>

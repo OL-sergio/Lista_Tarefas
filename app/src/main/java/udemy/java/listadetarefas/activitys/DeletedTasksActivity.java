@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +27,8 @@ public class DeletedTasksActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewDeletedList;
     private TaskAdapter taskAdapter;
-    private Task deletedTaskRetrieved;
 
     private List<Task> listDeletedList = new ArrayList<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +37,9 @@ public class DeletedTasksActivity extends AppCompatActivity {
         binding = ActivityDeletedTasksBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setTitle("Tarefas apagadas");
+
         recyclerViewDeletedList = binding.recyclerViewDeletedTasks;
-
-        deletedTaskRetrieved = (Task) getIntent().getSerializableExtra("deletedTask");
-
-        if (deletedTaskRetrieved != null){
-          binding.textViewDeleted.setText(deletedTaskRetrieved.getTaskName());
-        }
-
-
-
 
     }
 
@@ -56,13 +48,16 @@ public class DeletedTasksActivity extends AppCompatActivity {
         TaskDAO taskDao = new TaskDAO(getApplicationContext());
         listDeletedList = taskDao.listTasksDeleted();
 
+        /*
+        *
         Task tasks1 = new Task();
-        tasks1.setTaskName("Ir mercado");
+        tasks1.setTaskDeleteName("Ir mercado");
         listDeletedList.add(tasks1);
 
         Task tasks2 = new Task();
-        tasks2.setTaskName("Ir a feira");
+        tasks2.setTaskDeleteName("Ir a feira");
         listDeletedList.add(tasks2);
+        * */
 
         taskAdapter = new TaskAdapter(listDeletedList);
 
