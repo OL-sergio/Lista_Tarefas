@@ -107,17 +107,16 @@ public class MainActivity extends AppCompatActivity  {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+
+                                        Task task = new Task();
+                                        task.setTaskDeleteName(taskSelected.getTaskName());
+                                        taskDAO.save(task);
+
                                             if (taskDAO.delete(taskSelected)){
                                                 getTaskList();
-
-                                                taskSelected.getTaskDeleteName();
-
                                                 Toast.makeText(getApplicationContext(),
                                                         "Sucesso ao apagar tarefa!",
                                                         Toast.LENGTH_SHORT).show();
-
-
-
                                             }else {
                                                 Toast.makeText(getApplicationContext(),
                                                         "Erro ao apagar tarefa!",
@@ -131,7 +130,6 @@ public class MainActivity extends AppCompatActivity  {
                         }
                 )
         );
-
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,9 +160,28 @@ public class MainActivity extends AppCompatActivity  {
                         "Guardar item", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.item_menu_edit:
-                Toast.makeText(MainActivity.this,
-                        "Editar item", Toast.LENGTH_SHORT).show();
+            case R.id.item_delete_all_tasks:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Confirmar exclusão.");
+                dialog.setMessage("Deseja apagar todas tarefas!");
+                dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+                        if (taskDAO.listTasksDeleted() != null) {
+                            taskDAO.deletingAllTasks();
+                            getTaskList();
+                            Toast.makeText(MainActivity.this,
+                                    "Todas as tarefas apagadas!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Erro apagar tarefas!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                dialog.setNegativeButton("Não", null);
+                dialog.show();
+
                 break;
 
             case R.id.item_menu_config:

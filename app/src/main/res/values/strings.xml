@@ -13,4 +13,5 @@
     <string name="menu_editar">Editar</string>
     <string name="menu_configurar">Configurar</string>
     <string name="menu_deleted_tasks">Tarefas Apagadas</string>
+    <string name="menu_apagar_todas_tarefas">Apagar todas tarefas</string>
 </resources>

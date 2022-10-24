@@ -9,9 +9,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/item_menu_edit"
+        android:id="@+id/item_delete_all_tasks"
         android:orderInCategory="200"
-        android:title="@string/menu_editar"
+        android:title="@string/menu_apagar_todas_tarefas"
         app:showAsAction="never" />
 
     <item

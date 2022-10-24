@@ -20,7 +20,9 @@ public class Task implements Serializable {
         return taskName;
     }
 
-    public String getTaskDeleteName() {return taskDeleteName;}
+    public String getTaskDeleteName() {
+        return taskDeleteName;
+    }
 
     public void setTaskName(String taskName ) {
         this.taskName = taskName;
