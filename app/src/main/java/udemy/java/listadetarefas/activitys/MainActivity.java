@@ -109,13 +109,15 @@ public class MainActivity extends AppCompatActivity  {
                                         TaskDAO taskDAO = new TaskDAO(getApplicationContext());
                                             if (taskDAO.delete(taskSelected)){
                                                 getTaskList();
+
+                                                taskSelected.getTaskDeleteName();
+
                                                 Toast.makeText(getApplicationContext(),
                                                         "Sucesso ao apagar tarefa!",
                                                         Toast.LENGTH_SHORT).show();
 
-                                                if (taskDAO.delete(taskSelected)){
-                                                    taskSelected.getTaskDeleteName();
-                                                }
+
+
                                             }else {
                                                 Toast.makeText(getApplicationContext(),
                                                         "Erro ao apagar tarefa!",
